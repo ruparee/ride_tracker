@@ -22,8 +22,8 @@ public class RestControllerTest {
 //		ride.setDuration(35);
 //		ride.setName("Round Valley Ride");
 //		ride.setDuration(20);
-		ride.setName("Sagebrush Trail");
-		ride.setDuration(35);
+		ride.setName("Yellow Fork Trail");
+		ride.setDuration(33);
 		
 		ride = restTemplate.postForObject("http://localhost:8080/ride_tracker/ride",ride, Ride.class);
 		
@@ -44,4 +44,37 @@ public class RestControllerTest {
 			System.out.println("Ride name: " + ride.getName());
 		}
 	}
+	
+	@Test(timeout=3000)
+	public void testGetRide() {
+		RestTemplate restTemplate = new RestTemplate();
+		
+		Ride ride = restTemplate.getForObject("http://localhost:8080/ride_tracker/ride/1", Ride.class);
+		
+		System.out.println("Ride name: " + ride.getName());
+	}
+	
+	@Test(timeout=3000)
+	public void testUpdateRide() {
+		RestTemplate restTemplate = new RestTemplate();
+		
+		Ride ride = restTemplate.getForObject("http://localhost:8080/ride_tracker/ride/1", Ride.class);
+		
+		ride.setDuration(ride.getDuration() + 1);
+		
+		restTemplate.put("http://localhost:8080/ride_tracker/ride", ride);
+		
+		System.out.println("Ride name: " + ride.getName());
+	}
+	
+
+	@Test(timeout=3000)
+	public void testBatchUpdate() {
+		RestTemplate restTemplate = new RestTemplate();
+		
+		restTemplate.getForObject("http://localhost:8080/ride_tracker/batch", Object.class);
+		
+	}
+	
+	
 }
